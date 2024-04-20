@@ -1,6 +1,7 @@
-import time
 from locators import Stellarburgers
 from data import StellarburgersServiceTestData
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 class TestExitButtonClick:
     def test_exit_button_click(self, driver):
@@ -18,12 +19,8 @@ class TestExitButtonClick:
 
         personal_account_button_main = driver.find_element(*Stellarburgers.PERSONAL_ACCOUNT_BUTTON_MAIN)
         personal_account_button_main.click()
-        time.sleep(2)
-        exit_button = driver.find_element(*Stellarburgers.EXIT_BUTTON)
+        exit_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable(Stellarburgers.EXIT_BUTTON))
         exit_button.click()
 
-        time.sleep(2)
-        login_name = driver.find_element(*Stellarburgers.LOGIN_NAME)
-        assert login_name.is_displayed(), "Successful exit"
-
-        driver.quit()
+        element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((Stellarburgers.LOGIN_NAME)))
+        assert element.is_displayed(), "Successful registration"

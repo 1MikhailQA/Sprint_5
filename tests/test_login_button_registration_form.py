@@ -1,6 +1,7 @@
-import time
 from locators import Stellarburgers
 from data import StellarburgersServiceTestData
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 class TestLoginButtonRegistrationForm:
     def test_login_button_registration_form(self, driver):
@@ -23,8 +24,5 @@ class TestLoginButtonRegistrationForm:
         login_button = driver.find_element(*Stellarburgers.LOGIN_BUTTON)
         login_button.click()
 
-        time.sleep(2)
-        checkout_button = driver.find_element(*Stellarburgers.CHECKOUT_BUTTON)
-        assert checkout_button.is_displayed(), "Successful login"
-
-        driver.quit()
+        element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((Stellarburgers.CHECKOUT_BUTTON)))
+        assert element.is_displayed(), "Successful registration"

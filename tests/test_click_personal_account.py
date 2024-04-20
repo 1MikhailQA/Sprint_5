@@ -1,6 +1,7 @@
-import time
 from locators import Stellarburgers
 from data import StellarburgersServiceTestData
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 class TestClickPersonalAccount:
     def test_click_personal_account(self, driver):
@@ -16,15 +17,12 @@ class TestClickPersonalAccount:
         login_button = driver.find_element(*Stellarburgers.LOGIN_BUTTON)
         login_button.click()
 
-        time.sleep(2)
-        checkout_button = driver.find_element(*Stellarburgers.CHECKOUT_BUTTON)
-        assert checkout_button.is_displayed(), "Successful login"
+        element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((Stellarburgers.CHECKOUT_BUTTON)))
+        assert element.is_displayed(), "Successful registration"
 
         personal_account_button_main = driver.find_element(*Stellarburgers.PERSONAL_ACCOUNT_BUTTON_MAIN)
         personal_account_button_main.click()
 
-        time.sleep(2)
-        profile_header = driver.find_element(*Stellarburgers.PROFILE_HEADER)
-        assert profile_header.is_displayed(), "In your personal account"
 
-        driver.quit()
+        element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((Stellarburgers.PROFILE_HEADER)))
+        assert element.is_displayed(), "In your personal account"

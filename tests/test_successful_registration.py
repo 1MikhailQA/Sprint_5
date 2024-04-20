@@ -1,6 +1,7 @@
-import time
 from locators import Stellarburgers
 from data import StellarburgersServiceTestData
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 from faker import Faker
 
 fake = Faker()
@@ -24,8 +25,6 @@ class TestRegistration:
 
         registration_button_main = driver.find_element(*Stellarburgers.REGISTRATION_BUTTON_MAIN)
         registration_button_main.click()
-        time.sleep(2)
-        login_name = driver.find_element(*Stellarburgers.LOGIN_NAME)
-        assert login_name.is_displayed(), "Successful registration"
 
-        driver.quit()
+        element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((Stellarburgers.LOGIN_NAME)))
+        assert element.is_displayed(), "Successful registration"
